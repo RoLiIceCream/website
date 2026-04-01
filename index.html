@@ -6,7 +6,6 @@
   <title>Coming Soon</title>
 
   <!-- Favicon (reliable setup) -->
-  <link id="favicon" rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
   <link rel="shortcut icon" href="favicon.ico">
 
   <!-- Fonts -->
@@ -94,12 +93,6 @@
   <script>
     const favicon = document.getElementById('favicon');
     let blinking = false;
-
-    setInterval(() => {
-      blinking = !blinking;
-      const icon = blinking ? 'favicon-blink-32.png' : 'favicon-32.png';
-      favicon.href = icon + '?v=' + Date.now();
-    }, 1000);
   </script>
 </body>
 </html>
