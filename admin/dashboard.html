@@ -70,24 +70,29 @@
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-  <script>
-    const supabase = window.supabase.createClient(
-      "https://ersucttsvhjrwyxtoabv.supabase.co",
-      "sb_publishable_4fH78Pwzx1wafd4kwk3Eog_j4XiwljL"
-    );
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    // Protect page
-    supabase.auth.getUser().then(({ data }) => {
-      if (!data.user) {
-        window.location.href = "/admin";
-      }
-    });
+<script>
+  const supabase = window.supabase.createClient(
+    "https://ersucttsvhjrwyxtoabv.supabase.co",
+    "sb_publishable_4fH78Pwzx1wafd4kwk3Eog_j4XiwljL"
+  );
 
-    async function logout() {
-      await supabase.auth.signOut();
+  // 🔐 Protect page (WAIT for auth)
+  async function checkAuth() {
+    const { data } = await supabase.auth.getUser();
+
+    if (!data.user) {
       window.location.href = "/admin";
     }
-  </script>
+  }
 
-</body>
+  checkAuth();
+
+  // 🚪 Logout
+  async function logout() {
+    await supabase.auth.signOut();
+    window.location.href = "/admin";
+  }
+</script>
 </html>
