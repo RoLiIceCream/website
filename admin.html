@@ -1,1 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      background: #0f172a;
+      color: #e2e8f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background: #1e293b;
+      padding: 35px;
+      width: 340px;
+      border-radius: 14px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #38bdf8;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 25px;
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 6px;
+      color: #cbd5f5;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: #0f172a;
+      color: white;
+      font-size: 14px;
+    }
+
+    input:focus {
+      outline: 2px solid #38bdf8;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background: #38bdf8;
+      border: none;
+      border-radius: 8px;
+      color: black;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .login-btn:hover {
+      background: #0ea5e9;
+    }
+
+    .message {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #64748b;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-container">
+    <h2>Admin Panel</h2>
+    <p class="subtitle">Authorized access only</p>
+
+    <form id="loginForm">
+      <div class="input-group">
+        <label>Admin Username</label>
+        <input type="text" id="username" placeholder="Enter admin username" required />
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Enter password" required />
+      </div>
+
+      <button type="submit" class="login-btn">Login</button>
+      <div class="message" id="message"></div>
+    </form>
+
+    <div class="footer">
+      ⚠️ Secure system — activity may be logged
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+
+    // Demo credentials (change these)
+    const ADMIN_USER = "admin";
+    const ADMIN_PASS = "1234";
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === ADMIN_USER && pass === ADMIN_PASS) {
+        message.style.color = "#22c55e";
+        message.textContent = "Access granted. Redirecting...";
+
+        // fake redirect
+        setTimeout(() => {
+          window.location.href = "dashboard.html";
+        }, 1000);
+
+      } else {
+        message.style.color = "#ef4444";
+        message.textContent = "Invalid admin credentials!";
+      }
+    });
+  </script>
+</body>
+</html>
