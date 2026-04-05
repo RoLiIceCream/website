@@ -79,39 +79,43 @@
     </form>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <script>
-    const supabase = window.supabase.createClient(
-      "https://ersucttsvhjrwyxtoabv.supabase.co",
-      "sb_publishable_4fH78Pwzx1wafd4kwk3Eog_j4XiwljL"
-    );
+<script>
+  const supabase = window.supabase.createClient(
+    "https://ersucttsvhjrwyxtoabv.supabase.co",
+    "sb_publishable_4fH78Pwzx1wafd4kwk3Eog_j4XiwljL"
+  );
 
-    const form = document.getElementById("loginForm");
-    const msg = document.getElementById("msg");
+  const form = document.getElementById("loginForm");
+  const msg = document.getElementById("msg");
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-      const { error } = await supabase.auth.signInWithPassword({
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
-        password,
+        password
       });
 
-      if (error) {
-        msg.style.color = "#ef4444";
-        msg.textContent = error.message;
-      } else {
-        msg.style.color = "#22c55e";
-        msg.textContent = "Login successful!";
-        setTimeout(() => {
-          window.location.href = "/admin/dashboard.html";
-        }, 700);
-      }
-    });
-  </script>
+      if (error) throw error;
+
+      msg.style.color = "lime";
+      msg.textContent = "Login successful!";
+
+      setTimeout(() => {
+        window.location.href = "/admin/dashboard.html";
+      }, 500);
+
+    } catch (err) {
+      msg.style.color = "red";
+      msg.textContent = err.message;
+    }
+  });
+</script>
 </body>
 </html>
