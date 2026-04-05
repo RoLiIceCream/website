@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roli Admin Dashboard</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+    }
+
+    .header {
+      background: #1e293b;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 18px;
+      color: #38bdf8;
+    }
+
+    button {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      background: #ef4444;
+      color: white;
+      cursor: pointer;
+    }
+
+    .content {
+      padding: 20px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <h1>🍦 Roli Admin Dashboard</h1>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div class="content">
+    <div class="card">
+      <h2>Welcome!</h2>
+      <p>You are logged in 🎉</p>
+    </div>
+
+    <div class="card">
+      <h2>Quick Actions</h2>
+      <button onclick="alert('Add flavor coming soon!')">Add Ice Cream Flavor</button>
+    </div>
+  </div>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+  <script>
+    const supabase = window.supabase.createClient(
+      "https://ersucttsvhjrwyxtoabv.supabase.co",
+      "sb_publishable_4fH78Pwzx1wafd4kwk3Eog_j4XiwljL"
+    );
+
+    // Protect page
+    supabase.auth.getUser().then(({ data }) => {
+      if (!data.user) {
+        window.location.href = "/admin";
+      }
+    });
+
+    async function logout() {
+      await supabase.auth.signOut();
+      window.location.href = "/admin";
+    }
+  </script>
+
+</body>
+</html>
