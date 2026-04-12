@@ -16,13 +16,13 @@
         // Replace these with your actual keys from your code
         const SUPABASE_URL = 'https://ersucttsvhjrwyxtoabv.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyc3VjdHRzdmhqcnd5eHRvYWJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzODgzNzksImV4cCI6MjA5MDk2NDM3OX0.I-_benQqG7oCmgQ0LPMQZxV9TghfvbFiweadX2R6MJA';
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const rolisupabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function handleLogin() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            const { data, error } = await supabase.auth.signInWithPassword({
+            const { data, error } = await rolisupabase.auth.signInWithPassword({
                 email: email,
                 password: password,
             });
