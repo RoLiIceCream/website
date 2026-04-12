@@ -12,13 +12,13 @@
         </div>
 
     <script>
-        const SUPABASE_URL = 'https://your-project-url.supabase.co';
-        const SUPABASE_KEY = 'your-anon-key';
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const SUPABASE_URL = 'https://ersucttsvhjrwyxtoabv.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyc3VjdHRzdmhqcnd5eHRvYWJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzODgzNzksImV4cCI6MjA5MDk2NDM3OX0.I-_benQqG7oCmgQ0LPMQZxV9TghfvbFiweadX2R6MJA';
+        const rolisupabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function checkUser() {
             // Get the current logged-in user
-            const { data: { user } } = await supabase.auth.getUser();
+            const { data: { user } } = await rolisupabase.auth.getUser();
 
             if (!user) {
                 // NO USER FOUND: Redirect to login page immediately
