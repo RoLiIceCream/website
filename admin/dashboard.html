@@ -1,98 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roli Admin Dashboard</title>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: white;
-    }
-
-    .header {
-      background: #1e293b;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .header h1 {
-      font-size: 18px;
-      color: #38bdf8;
-    }
-
-    button {
-      padding: 8px 14px;
-      border: none;
-      border-radius: 6px;
-      background: #ef4444;
-      color: white;
-      cursor: pointer;
-    }
-
-    .content {
-      padding: 20px;
-    }
-
-    .card {
-      background: #1e293b;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-  </style>
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-
 <body>
+    <div id="admin-content" style="display:none;">
+        <h1>Ice Cream Shop Dashboard</h1>
+        <p>Welcome to the secure area!</p>
+        <button onclick="handleLogout()">Logout</button>
+        </div>
 
-  <div class="header">
-    <h1>🍦 Roli Admin Dashboard</h1>
-    <button onclick="logout()">Logout</button>
-  </div>
+    <script>
+        const SUPABASE_URL = 'https://your-project-url.supabase.co';
+        const SUPABASE_KEY = 'your-anon-key';
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  <div class="content">
-    <div class="card">
-      <h2>Welcome!</h2>
-      <p>You are logged in 🎉</p>
-    </div>
+        async function checkUser() {
+            // Get the current logged-in user
+            const { data: { user } } = await supabase.auth.getUser();
 
-    <div class="card">
-      <h2>Quick Actions</h2>
-      <button onclick="alert('Add flavor coming soon!')">Add Ice Cream Flavor</button>
-    </div>
-  </div>
+            if (!user) {
+                // NO USER FOUND: Redirect to login page immediately
+                window.location.href = "/admin";
+            } else {
+                // USER FOUND: Show the dashboard content
+                document.getElementById('admin-content').style.display = 'block';
+            }
+        }
 
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+        async function handleLogout() {
+            await supabase.auth.signOut();
+            window.location.href = "/admin";
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-  const supabase = window.supabase.createClient(
-    "https://ersucttsvhjrwyxtoabv.supabase.co",
-    "sb_publishable_4fH78Pwzx1wafd4kwk3Eog_j4XiwljL"
-  );
-
-  // 🔐 Protect page (WAIT for auth)
-  async function checkAuth() {
-    const { data } = await supabase.auth.getUser();
-
-    if (!data.user) {
-      window.location.href = "/admin";
-    }
-  }
-
-  checkAuth();
-
-  // 🚪 Logout
-  async function logout() {
-    await supabase.auth.signOut();
-    window.location.href = "/admin";
-  }
-</script>
+        // Run the check as soon as the page loads
+        checkUser();
+    </script>
+</body>
 </html>
