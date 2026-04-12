@@ -78,18 +78,18 @@
     }
   </style>
 </head>
-
+  <script>
+function copyURL() {
+  const textToCopy = "play.roliicecream.com";
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    alert("Copied to clipboard!");
+  });
+}
+<script/>
 <body>
   <div class="card">
     <div class="badge">Join Our Minecraft Server</div>
-    <a href="https://play.roliicecream.com">play.roliicecream.com</a>
-
+    <h1 id="copyText" onclick="copyURL()" style="cursor:pointer;">play.roliicecream.com</h1>
+    <p>Click the text to copy!<p/>
   </div>
 
-  <!-- Animated favicon (may not always update in Chrome, but safe to include) -->
-  <script>
-    const favicon = document.getElementById('favicon');
-    let blinking = false;
-  </script>
-</body>
-</html>
