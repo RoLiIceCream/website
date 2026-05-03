@@ -3,140 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Portal | Login</title>
-    <!-- Adding Google Fonts for a more professional look -->
-    <link href="https://googleapis.com" rel="stylesheet">
+    <title>Professional Admin System</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Charting Library -->
     <style>
-        * { box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #1a202c; /* Dark admin theme background */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+        :root {
+            --sidebar-color: #1e293b;
+            --accent-blue: #3b82f6;
+            --text-light: #f8fafc;
+            --body-bg: #f1f5f9;
         }
 
-        .admin-card {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 400px;
-        }
+        body, html { margin: 0; padding: 0; font-family: 'Inter', sans-serif; height: 100%; background: var(--body-bg); }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
+        /* --- LOGIN PAGE STYLES --- */
+        #login-page {
+            display: flex; justify-content: center; align-items: center; height: 100vh;
         }
-
-        .header h1 {
-            font-size: 24px;
-            color: #1a202c;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .login-card {
+            background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px; text-align: center;
         }
+        .login-card input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; }
+        .btn-login { width: 100%; padding: 12px; background: var(--sidebar-color); color: white; border: none; border-radius: 6px; cursor: pointer; }
 
-        .header p {
-            color: #718096;
-            font-size: 14px;
-            margin-top: 8px;
-        }
+        /* --- DASHBOARD STYLES --- */
+        #dashboard-page { display: none; height: 100vh; }
+        
+        .sidebar { width: 240px; background: var(--sidebar-color); color: var(--text-light); transition: 0.3s; }
+        .sidebar.collapsed { width: 60px; }
+        .sidebar a { display: block; color: #94a3b8; padding: 15px 20px; text-decoration: none; white-space: nowrap; }
+        .sidebar a:hover { background: #334155; color: white; }
 
-        .input-group { margin-bottom: 20px; }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 13px;
-            color: #4a5568;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 6px;
-            font-size: 15px;
-            transition: border-color 0.2s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #4a90e2;
-        }
-
-        .admin-btn {
-            width: 100%;
-            padding: 14px;
-            background-color: #2d3748; /* Solid dark button */
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 15px;
-            transition: background 0.3s;
-        }
-
-        .admin-btn:hover {
-            background-color: #1a202c;
-        }
-
-        .footer-links {
-            margin-top: 25px;
-            text-align: center;
-            font-size: 13px;
-        }
-
-        .footer-links a {
-            color: #4a90e2;
-            text-decoration: none;
-        }
-
-        .badge {
-            display: inline-block;
-            background: #fed7d7;
-            color: #c53030;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+        .main-content { flex: 1; overflow-y: auto; padding: 20px; }
+        header { display: flex; justify-content: space-between; align-items: center; background: white; padding: 15px 25px; border-radius: 8px; margin-bottom: 20px; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .stat-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        
+        .chart-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-top: 20px; }
     </style>
 </head>
 <body>
 
-    <div class="admin-card">
-        <div class="header">
-            <span class="badge">RESTRICTED AREA</span>
-            <h1>Control Panel</h1>
-            <p>Please enter your admin credentials</p>
-        </div>
-
-        <form action="/admin/dashboard" method="POST">
-            <div class="input-group">
-                <label>Admin ID</label>
-                <input type="text" name="admin_user" placeholder="e.g. admin_01" required>
-            </div>
-
-            <div class="input-group">
-                <label>Security Key</label>
-                <input type="password" name="admin_pass" placeholder="••••••••" required>
-            </div>
-
-            <button type="submit" class="admin-btn">Authorize Entry</button>
-        </form>
-
-        <div class="footer-links">
-            <a href="#">System Recovery</a> • <a href="#">Server Status</a>
+    <!-- LOGIN PAGE VIEW -->
+    <div id="login-page">
+        <div class="login-card">
+            <h2>Admin Login</h2>
+            <p>Access your dashboard</p>
+            <input type="text" placeholder="Admin Username" id="user">
+            <input type="password" placeholder="Password" id="pass">
+            <button class="btn-login" onclick="login()">Enter Dashboard</button>
         </div>
     </div>
 
+    <!-- DASHBOARD VIEW -->
+    <div id="dashboard-page" style="display: flex;">
+        <nav class="sidebar" id="sidebar">
+            <div style="padding: 20px; font-weight: bold; text-align: center;">ADMIN PRO</div>
+            <a href="#">🏠 Dashboard</a>
+            <a href="#">📊 Analytics</a>
+            <a href="#">👥 Users</a>
+            <a href="#">⚙️ Settings</a>
+            <a href="#" onclick="logout()" style="margin-top: 50px; color: #f87171;">🚪 Logout</a>
+        </nav>
+
+        <div class="main-content">
+            <header>
+                <button onclick="toggleSidebar()" style="cursor:pointer">☰ Toggle Menu</button>
+                <div id="greeting">Welcome back, Admin</div>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card"><h4>Revenue</h4><h3>$42,500</h3></div>
+                <div class="stat-card"><h4>Users</h4><h3>1,240</h3></div>
+                <div class="stat-card"><h4>Sessions</h4><h3>850</h3></div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Weekly Performance</h3>
+                <canvas id="myChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Switch between Login and Dashboard
+        function login() {
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('dashboard-page').style.display = 'flex';
+            initChart(); // Load the chart after the dashboard becomes visible
+        }
+
+        function logout() {
+            location.reload(); // Simple way to reset state for this demo
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        }
+
+        // Initialize Chart.js
+        function initChart() {
+            const ctx = document.getElementById('myChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Active Users',
+                        data: [65, 59, 80, 81, 56, 55, 40],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: { responsive: true }
+            });
+        }
+    </script>
 </body>
 </html>
