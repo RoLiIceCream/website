@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Admin Portal</title>
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        :root {
+            --sidebar-color: #0f172a;
+            --accent-blue: #2563eb;
+            --bg-gray: #f8fafc;
+        }
+
+        body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg-gray); height: 100%; overflow: hidden; }
+
+        /* --- LOGIN SCREEN --- */
+        #login-page {
+            display: flex; justify-content: center; align-items: center; height: 100vh;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        }
+        .login-card {
+            background: white; padding: 40px; border-radius: 12px; width: 100%; max-width: 360px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); text-align: center;
+        }
+        .login-card h2 { margin-bottom: 20px; color: #1e293b; }
+        .login-card input {
+            width: 100%; padding: 12px; margin: 8px 0; border: 1.5px solid #e2e8f0;
+            border-radius: 6px; box-sizing: border-box; font-size: 14px;
+        }
+        .btn-login {
+            width: 100%; padding: 12px; background: var(--accent-blue); color: white;
+            border: none; border-radius: 6px; cursor: pointer; font-weight: 600; margin-top: 15px;
+        }
+        .btn-login:hover { background: #1d4ed8; }
+        .error-msg { color: #ef4444; font-size: 13px; margin-top: 10px; display: none; }
+
+        /* --- DASHBOARD SCREEN --- */
+        #dashboard-page { display: none; height: 100vh; }
+        .sidebar { width: 240px; background: var(--sidebar-color); color: white; display: flex; flex-direction: column; }
+        .sidebar-header { padding: 25px; font-weight: bold; font-size: 1.2rem; border-bottom: 1px solid #1e293b; }
+        .sidebar a { padding: 15px 25px; color: #94a3b8; text-decoration: none; transition: 0.2s; }
+        .sidebar a:hover { background: #1e293b; color: white; }
+        
+        .main-view { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        header { background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .content { padding: 30px; }
+        
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0; color: #64748b; font-size: 14px; text-transform: uppercase; }
+        .card p { margin: 10px 0 0; font-size: 24px; font-weight: bold; color: #1e293b; }
+    </style>
+</head>
+<body>
+
+    <!-- SECTION 1: LOGIN -->
+    <div id="login-page">
+        <div class="login-card">
+            <h2>Admin Portal</h2>
+            <input type="text" id="username" placeholder="Username (admin)">
+            <input type="password" id="password" placeholder="Password (1234)">
+            <button class="btn-login" onclick="validateLogin()">Authorize Access</button>
+            <p id="error" class="error-msg">Invalid credentials. Access Denied.</p>
+        </div>
+    </div>
+
+    <!-- SECTION 2: DASHBOARD -->
+    <div id="dashboard-page">
+        <nav class="sidebar">
+            <div class="sidebar-header">CORP PANEL</div>
+            <a href="#">Dashboard</a>
+            <a href="#">User Logs</a>
+            <a href="#">Security</a>
+            <a href="#" onclick="logout()" style="margin-top: auto; color: #fb7185;">Logout</a>
+        </nav>
+
+        <div class="main-view">
+            <header>
+                <div style="font-weight: 600;">System Status: <span style="color: #22c55e;">Online</span></div>
+                <div>Welcome, <strong id="display-user"></strong></div>
+            </header>
+
+            <div class="content">
+                <div class="stats-row">
+                    <div class="card"><h3>Total Revenue</h3><p>$128,430</p></div>
+                    <div class="card"><h3>Active Sessions</h3><p>14</p></div>
+                    <div class="card"><h3>Server Load</h3><p>32%</p></div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <h3>Performance Graph</h3>
+                    <canvas id="adminChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function validateLogin() {
+            const userField = document.getElementById('username').value;
+            const passField = document.getElementById('password').value;
+            const errorText = document.getElementById('error');
+
+            // THE CHECK: Only allows 'admin' and '1234'
+            if (userField === "admin" && passField === "1234") {
+                // Success: Hide login, show dashboard
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('dashboard-page').style.display = 'flex';
+                document.getElementById('display-user').innerText = userField;
+                loadChart();
+            } else {
+                // Failure: Show error message
+                errorText.style.display = 'block';
+                // Shake effect (optional)
+                document.querySelector('.login-card').style.animation = "shake 0.2s ease-in-out 0s 2";
+            }
+        }
+
+        function logout() {
+            location.reload(); // Returns to login state
+        }
+
+        function loadChart() {
+            const ctx = document.getElementById('adminChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                    datasets: [{
+                        label: 'Internal Traffic',
+                        data: [12, 19, 3, 5, 2],
+                        backgroundColor: '#2563eb'
+                    }]
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
