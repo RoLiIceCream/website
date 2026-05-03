@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Admin Portal</title>
-    <script src="https://jsdelivr.net"></script>
     <style>
         :root {
             --sidebar-color: #0f172a;
@@ -13,29 +12,6 @@
         }
 
         body, html { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg-gray); height: 100%; overflow: hidden; }
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBsg2BeIftb_0mG8zyh7MDqQnHM_pztIGs",
-    authDomain: "roliicecream.firebaseapp.com",
-    projectId: "roliicecream",
-    storageBucket: "roliicecream.firebasestorage.app",
-    messagingSenderId: "3015424775",
-    appId: "1:3015424775:web:17d160f21e6c5a0175a3a2",
-    measurementId: "G-TDB074M17G"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
         /* --- LOGIN SCREEN --- */
         #login-page {
             display: flex; justify-content: center; align-items: center; height: 100vh;
@@ -118,46 +94,60 @@
         </div>
     </div>
 
-    <script>
-        function validateLogin() {
-            const userField = document.getElementById('username').value;
-            const passField = document.getElementById('password').value;
-            const errorText = document.getElementById('error');
+    <!-- Include this inside your <script type="module"> tag -->
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
-            // THE CHECK
-            if (userField === "admin" && passField === "1234") {
-                // Success: Hide login, show dashboard
-                document.getElementById('login-page').style.display = 'none';
-                document.getElementById('dashboard-page').style.display = 'flex';
-                document.getElementById('display-user').innerText = userField;
-                loadChart();
-            } else {
-                // Failure: Show error message
-                errorText.style.display = 'block';
-                // Shake effect (optional)
-                document.querySelector('.login-card').style.animation = "shake 0.2s ease-in-out 0s 2";
-            }
-        }
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBsg2BeIftb_0mG8zyh7MDqQnHM_pztIGs",
+    authDomain: "roliicecream.firebaseapp.com",
+    projectId: "roliicecream",
+    storageBucket: "roliicecream.firebasestorage.app",
+    messagingSenderId: "3015424775",
+    appId: "1:3015424775:web:17d160f21e6c5a0175a3a2",
+    measurementId: "G-TDB074M17G"
+  };
 
-        function logout() {
-            location.reload(); // Returns to login state
-        }
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-        function loadChart() {
-            const ctx = document.getElementById('adminChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                    datasets: [{
-                        label: 'Internal Traffic',
-                        data: [12, 19, 3, 5, 2],
-                        backgroundColor: '#2563eb'
-                    }]
-                }
-            });
-        }
-    </script>
+  // LOGIN FUNCTION
+  window.validateLogin = async () => {
+    const email = document.getElementById('username').value; // Use email format
+    const pass = document.getElementById('password').value;
+    const errorMsg = document.getElementById('error');
+
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+      // Success is handled automatically by the observer below
+    } catch (error) {
+      errorMsg.innerText = "Login Failed: " + error.message;
+      errorMsg.style.display = 'block';
+    }
+  };
+
+  // OBSERVER: Monitors if a user is logged in
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('dashboard-page').style.display = 'flex';
+      document.getElementById('display-user').innerText = user.email;
+    } else {
+      document.getElementById('login-page').style.display = 'flex';
+      document.getElementById('dashboard-page').style.display = 'none';
+    }
+  });
+
+  // LOGOUT FUNCTION
+  window.logout = () => {
+    signOut(auth);
+  };
+</script>
+
 
 </body>
 </html>
