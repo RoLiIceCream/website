@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Activate RoLiIceCream TV</title>
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="/favicon.ico?v=1">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2" />
 
   <style>
     body {
@@ -31,8 +30,8 @@
     }
 
     .logo {
-      width: 140px;
-      height: 140px;
+      width: 160px;
+      height: 160px;
       object-fit: contain;
       margin-bottom: 15px;
     }
@@ -57,6 +56,7 @@
       text-transform: uppercase;
       border: 3px solid #ffb74d;
       border-radius: 12px;
+      letter-spacing: 3px;
     }
 
     button {
@@ -80,6 +80,7 @@
       margin-top: 20px;
       font-weight: bold;
       color: #4caf50;
+      min-height: 24px;
     }
 
     .footer {
@@ -91,9 +92,8 @@
 </head>
 <body>
 
-  <div class="card">
-
-    <img class="logo" src="/logo.png" alt="RoLiIceCream TV Logo">
+  <main class="card">
+    <img class="logo" src="/logo.png" alt="RoLiIceCream TV Logo" />
 
     <h1>RoLiIceCream TV</h1>
 
@@ -105,12 +105,11 @@
         id="tvCode"
         maxlength="9"
         placeholder="ABCD-1234"
+        autocomplete="off"
         required
-      >
+      />
 
-      <button type="submit">
-        Activate TV
-      </button>
+      <button type="submit">Activate TV</button>
     </form>
 
     <div class="message" id="message"></div>
@@ -118,36 +117,37 @@
     <div class="footer">
       roliicecream.com
     </div>
-
-  </div>
+  </main>
 
   <script>
-    document
-      .getElementById("activateForm")
-      .addEventListener("submit", function(event) {
+    const input = document.getElementById("tvCode");
+    const form = document.getElementById("activateForm");
+    const message = document.getElementById("message");
 
-        event.preventDefault();
+    input.addEventListener("input", () => {
+      let value = input.value
+        .toUpperCase()
+        .replace(/[^A-Z0-9]/g, "");
 
-        const code = document
-          .getElementById("tvCode")
-          .value
-          .trim()
-          .toUpperCase();
+      if (value.length > 4) {
+        value = value.slice(0, 4) + "-" + value.slice(4, 8);
+      }
 
-        const message = document.getElementById("message");
+      input.value = value;
+    });
 
-        if (!code) {
-          message.textContent = "Please enter a TV code.";
-          return;
-        }
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
 
-        // TODO: Send code to your backend API
-        // Example:
-        // fetch('/api/activate', {...})
+      const code = input.value.trim().toUpperCase();
 
-        message.textContent =
-          "Activation code received: " + code;
-      });
+      if (!code) {
+        message.textContent = "Please enter a TV code.";
+        return;
+      }
+
+      message.textContent = "🍦 Activation code received: " + code;
+    });
   </script>
 
 </body>
