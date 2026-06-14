@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Activate RoLiIceCream TV</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico?v=1">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #fff9c4, #ffe082);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card {
+      background: white;
+      width: 90%;
+      max-width: 500px;
+      padding: 40px;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    .logo {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      color: #ff4fa3;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #555;
+      font-size: 18px;
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 15px;
+      font-size: 24px;
+      text-align: center;
+      text-transform: uppercase;
+      border: 3px solid #ffb74d;
+      border-radius: 12px;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 15px;
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      background: #ff4fa3;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ff2c8c;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #4caf50;
+    }
+
+    .footer {
+      margin-top: 25px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <img class="logo" src="/logo.png" alt="RoLiIceCream TV Logo">
+
+    <h1>RoLiIceCream TV</h1>
+
+    <p>Enter the code displayed on your TV.</p>
+
+    <form id="activateForm">
+      <input
+        type="text"
+        id="tvCode"
+        maxlength="9"
+        placeholder="ABCD-1234"
+        required
+      >
+
+      <button type="submit">
+        Activate TV
+      </button>
+    </form>
+
+    <div class="message" id="message"></div>
+
+    <div class="footer">
+      roliicecream.com
+    </div>
+
+  </div>
+
+  <script>
+    document
+      .getElementById("activateForm")
+      .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const code = document
+          .getElementById("tvCode")
+          .value
+          .trim()
+          .toUpperCase();
+
+        const message = document.getElementById("message");
+
+        if (!code) {
+          message.textContent = "Please enter a TV code.";
+          return;
+        }
+
+        // TODO: Send code to your backend API
+        // Example:
+        // fetch('/api/activate', {...})
+
+        message.textContent =
+          "Activation code received: " + code;
+      });
+  </script>
+
+</body>
+</html>
